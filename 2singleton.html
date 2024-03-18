@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单例模式</title>
+  <script>
+    // 单例模式的三种方法
+    // 1、字面量
+    // const singleton = {
+    //   prop1: 'val1',
+    //   prop2: 'val2',
+    //   count: 1
+    // }
+
+    // 2、构造函数
+    // function Singleton () {
+    //   if (Singleton.instance && typeof Singleton.instance.constructor === 'Singleton') {
+    //     return typeof Singleton.instance
+    //   }
+
+    //   this.prop1 = 'val1'
+    //   this.prop2 = 'val2'
+    //   this.count = 1
+
+    //   return this
+    // }
+
+    // const singleton = Singleton()
+    // const singleton1 = Singleton()
+
+    // console.log(singleton === singleton1)
+
+    // 3、模块模式 这个其实是使用自执行函数返回一个对象，再结合闭包存储
+    const Singleton = (function() {
+      let instance
+
+      function Init () {
+        return {
+          prop1: 'val1',
+          prop2: 'val2',
+          count: 1
+        }
+      }
+      return {
+        getInstance: function() {
+          if (!instance) {
+            instance = Init()
+          }
+          return instance
+        }
+      }
+    })()
+
+    const singleton = Singleton.getInstance()
+    const singleton1 = Singleton.getInstance()
+    // console.log(singleton === singleton1)
+
+    singleton.count++
+    console.log(singleton1)
+
+  </script>
+</head>
+<body>
+  单例模式（Singleton Pattern）：保证一个类只有一个实例，并提供一个访问它的全局访问点。在前端开发中，可以使用单例模式来管理全局状态和资源。
+  <br>
+  <br>
+  <br>
+  想vue中的vuex就是一种单例模式
+</body>
+</html>

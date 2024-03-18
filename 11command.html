@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>命令模式</title>
+  <script>
+    class Command {
+      constructor (receiver, args) {
+        this.receiver = receiver
+        this.args = args
+        this.executed = false
+      }
+
+      execute() {
+        if(!this.executed) {
+          this.receiver.execute(this.args)
+          this.executed = true
+        }
+      }
+
+      undo() {
+        if(this.executed) {
+          this.receiver.undo(this.args)
+          this.executed = false
+        }
+      }
+    }
+
+    class Receiver1 {
+      constructor() {
+        this.value = 0
+      }
+
+      execute(arg) {
+        this.value += arg
+      }
+
+      undo(arg) {
+        this.value -= arg
+      }
+    }
+
+    const receiver = new Receiver1()
+
+    const command1 = new Command(receiver, 1)
+    const command2 = new Command(receiver, 2)
+    const command3 = new Command(receiver, 3)
+    command1.execute()
+    command2.execute()
+    command3.execute()
+
+    console.log(receiver.value)
+
+    command1.undo()
+
+    console.log(receiver.value)
+
+  </script>
+</head>
+<body>
+  命令模式（Command Pattern）：它允许你将操作封装成对象。这些对象包括了被调用的方法及其参数。这些命令对象可以被存储、传递和执行。
+
+  <br><br><br>
+
+  在前端开发中，命令模式可以被用于实现可撤销和重做的操作。例如，在一个文本编辑器中，可以使用命令模式来实现撤销和重做操作。对于每一个编辑操作，可以创建一个命令对象来表示这个操作，然后将这个命令对象存储在一个历史列表中。当需要撤销操作时，可以从历史列表中取出最近的命令对象并执行它的反向操作。
+
+</body>
+</html>

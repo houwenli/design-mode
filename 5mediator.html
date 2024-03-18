@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中介者模式</title>
+  <script>
+    // 主要用于对象间多对多的数据传输，这个和发布订阅有些相似，但是没有发布订阅灵活
+
+    // 可以理解成发布者只发布了一个事件，订阅者也只订阅了一个事件
+
+    // 中介者对象
+    const Mediator = {
+      components: [],
+      addComponent(component) {
+        this.components.push(component)
+      },
+      broadcast(source, msg) {
+        this.components.filter(item => {
+          return item !== source
+        }).forEach(item => {
+          item.receive(msg)
+        })
+      }
+    }
+
+    // 组件对象
+    class Component {
+      constructor(name) {
+        this.name = name
+        this.mediator = Mediator
+        this.mediator.addComponent(this)
+      }
+
+      send(msg) {
+        this.mediator.broadcast(this, msg)
+      }
+
+      receive(msg) {
+        console.log(`我是${this.name}，我接受到消息了${msg}`)
+      }
+    }
+
+    let component1 = new Component('组件1')
+    let component2 = new Component('组件2')
+    let component3 = new Component('组件3')
+
+    component1.send('hello， 我是组件1')
+    component2.send('hello， 我是组件2')
+    // co
+  </script>
+</head>
+<body>
+  中介者模式（Mediator Pattern）：通过一个中介对象来封装一系列对象之间的交互。在JavaScript中，可以使用事件调度器来实现中介者模式。
+
+  <br><br><br>
+  在前端开发中，中介者模式常常被用于管理复杂的用户界面或组件之间的交互，比如 GUI 组件、聊天室、游戏等等。通过引入一个中介者对象，各个组件可以向中介者对象发送消息或事件，而不需要知道消息或事件的接收者是谁。中介者对象负责接收并分发消息或事件，从而实现组件之间的解耦和统一管理。
+
+  <br><br><br>
+
+  这种模式对组件的侵入性较大，比如需要再组件生成的时候创建中介者属性，不像发布订阅模式那样只需要“发布” “订阅”即可
+
+</body>
+</html>

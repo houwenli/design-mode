@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>装饰者模式</title>
+  <script>
+    // 通过扩展对象的属性或方法来实现装饰者模式
+    const obj = {
+      foo() {
+        console.log('foo');
+      }
+    }
+
+    function barDecorator(obj) {
+      obj.bar = function() {
+        console.log('bar方法')
+      }
+      return obj
+    }
+
+    // 通过扩展对象的原型来实现装饰者模式
+    function Foo() {}
+
+    // 在原型上定义一个方法
+    Foo.prototype.foo = function() {
+      console.log('foo');
+    }
+
+    // 定义一个装饰函数，用于扩展原型的方法
+    function barDecorator(clazz) {
+      clazz.prototype.bar = function() {
+        console.log('bar');
+      }
+    }
+
+
+  </script>
+</head>
+<body>
+  装饰者模式（Decorator Pattern）：动态地给一个对象添加额外的职责。在前端开发中，可以使用装饰者模式来动态修改组件的行为和样式。
+
+  <br><br><br>
+
+  就是再不改变对象的前提下扩展对象的功能
+
+  <br><br><br>
+
+  有些类似面向切面编程模式
+
+  面向切面编程是扩展方法的功能，装饰者模式是扩展对象的功能
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工厂模式</title>
+  <script>
+
+    const Input = function (formItem) {
+      this.value = ''
+      this.type = 'input'
+      this.onClick = () => {
+        formItem.clickFn && formItem.clickFn()
+      }
+    }
+
+    const Radio = function (formItem) {
+      this.value = ''
+      this.type = 'radio'
+      this.onClick = () => {
+        formItem.clickFn && formItem.clickFn()
+      }
+    }
+
+    const Textarea = function (formItem) {
+      this.value = ''
+      this.type = 'textarea'
+      this.onClick = () => {
+        formItem.clickFn && formItem.clickFn()
+      }
+    }
+
+    const Render = function (type, formItem) {
+      switch(type) {
+        case 'input':
+          return new Input()
+          break;
+        case 'radio':
+          return new Radio()
+          break;
+        case 'textarea':
+          return new Textarea()
+          break;
+      }
+    }
+
+    let input = Render('input', {})
+    console.log(input)
+  </script>
+</head>
+<body>
+  工厂模式（Factory Pattern）：将对象的创建和使用分离，由工厂类负责创建对象并返回。在前端开发中，可以使用工厂模式来动态创建组件。
+<br>
+<br>
+<br>
+  前端中的工厂模式是一种创建对象的设计模式，它可以让我们封装创建对象的细节，我们使用工厂方法而不是直接调用new关键字来创建对象，使得代码更加清晰、简洁和易于维护。在前端开发中国，工厂模式通常用于创建多个相似但稍有不同的对象，比如创建一系列的表单控件或者按钮
+<br>
+<br>
+<br>
+  在实现工厂模式时，通常需要创建一个工厂函数，该函数可以接受一些参数，并根据这些参数来创建对象，例如我们可以创建一个Render函数，它接受一个type参数，根据type返回不同的form组件
+</body>
+</html>

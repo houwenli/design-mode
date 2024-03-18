@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代理模式</title>
+  <script>
+    class Image {
+      constructor(url) {
+        this.url = url
+      }
+
+      // 加载图片
+      load() {
+        console.log(`Image loaded: ${this.url}`)
+      }
+    }
+
+    // 一般做法如下
+    // const img1 = new Image('img11111')
+    // img1.load()
+
+    // 那么我们可以想一下怎么实现懒加载功能呢，显然只通过Image对象是实现不了的
+    // 这时我们就需要一个代理对象由这个对象控制我们真实的图片对象
+    class ProxyImage {
+      constructor(url) {
+        this.url = url
+        this.image = null
+      }
+
+      load() {
+        // 此时可以做一些额外操作
+        if(!this.image) {
+          console.log(`preload Image for ${this.url}`)
+          this.image = new Image(this.url)
+        }
+        // 真正的图片加载
+        this.image.load()
+      }
+    }
+
+    const img1 = new ProxyImage('img11111')
+    img1.load()
+
+    img1.load()
+
+  </script>
+</head>
+<body>
+  代理模式（Proxy Pattern）：前端设计模式中的代理模式是一种结构型模式，它允许在不改变原始对象的情况下，通过引入一个代理对象来控制对原始对象的访问。代理对象充当原始对象的中介，客户端与代理对象交互，代理对象再将请求转发给原始对象。
+
+  <br><br><br>
+  代理模式在前端开发中经常被用来处理一些复杂或者耗时的操作，例如图片的懒加载、缓存等。代理对象可以在加载图片时显示占位符，当图片加载完成后再替换占位符，从而提高页面加载速度和用户体验。
+
+  <br><br><br>
+
+
+</body>
+</html>

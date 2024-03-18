@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>职责链模式</title>
+  <script>
+    class Handler {
+      constructor () {
+        this.nextHandler = null
+      }
+
+      setNextHandler(handler) {
+        this.nextHandler = handler
+      }
+
+      handlerRequest(request) {
+        if(this.nextHandler) {
+          this.nextHandler.handlerRequest(request)
+        }
+      }
+    }
+
+    // 定义每一步的职责
+    class Handler1 extends Handler {
+      handlerRequest(request) {
+        if (request == 'request1') {
+          console.log('第一步开始处理')
+        } else {
+          super.handlerRequest(request)
+        }
+      }
+    }
+
+    class Handler2 extends Handler {
+      handlerRequest(request) {
+        if (request == 'request2') {
+          console.log('第二步开始处理')
+        } else {
+          super.handlerRequest(request)
+        }
+      }
+    }
+
+    const handler1 = new Handler1()
+    const handler2 = new Handler2()
+
+    handler1.setNextHandler(handler2)
+
+    handler1.handlerRequest('request1')
+    handler1.handlerRequest('request2')
+  </script>
+</head>
+<body>
+  职责链模式（Chain of Responsibility Pattern）：为了避免请求发送者与多个请求处理者耦合在一起，将所有请求的处理者通过前一对象记住其下一个对象的方式连成一条链，然后请求沿着链传递，直到有一个对象处理它为止。在JavaScript中，可以使用函数对象或对象字面量来实现职责链模式。
+
+
+  <br><br><br>
+  职责链模式通常涉及一系列处理对象，每个对象都负责处理请求的一部分，并将请求传递给下一个对象，直到请求得到满足或者处理结束。这种方式可以将系统中的不同操作解耦，从而提高系统的灵活性和可维护性。
+
+
+  <br><br><br>
+  在 JavaScript 中，职责链模式的实现通常涉及使用一个处理对象的链表，其中每个对象都有一个指向下一个对象的引用。当请求进入系统时，它首先被传递给链表中的第一个对象。如果这个对象不能处理请求，则将请求传递给链表中的下一个对象，直到找到能够处理请求的对象为止。
+
+</body>
+</html>

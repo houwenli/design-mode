@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>策略模式</title>
+  <script>
+    function Operation(type, id) {
+      if(type === 'add') {
+        addFn(id)
+      }
+      if(type === 'del') {
+        delFn(id)
+      }
+      if(type === 'update') {
+        updateFn(id)
+      }
+    }
+
+    function addFn(id) {
+      console.log('add 方法')
+    }
+
+    function delFn(id) {
+      console.log('del 方法')
+    }
+
+    function updateFn(id) {
+      console.log('update 方法')
+    }
+
+
+
+    // 改写
+    const strategy = {
+      'add': addFn,
+      'del': delFn,
+      'update': updateFn
+    }
+
+    function Operation(type, id) {
+      strategy[type](id)
+    }
+  </script>
+</head>
+<body>
+  策略模式（Strategy Pattern）：定义一系列的算法，将每一个算法都封装起来，并且使它们可以相互替换。在前端开发中，可以使用策略模式来动态切换组件的算法和行为。
+
+  <br><br><br>
+  它可以让我们在不改变对象本身的情况下，通过修改其内部的算法实现不同的行为。策略模式常常被用于实现一些复杂的业务逻辑，特别是需要根据不同的条件进行处理的情况。
+
+
+  <br><br><br>
+  在处理ifelse的时候很有效
+</body>
+</html>

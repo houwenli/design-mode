@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>适配器模式</title>
+  <script>
+    // 比如一个商品组件，需要skuname，price，img等字段
+    const target = {
+      skuname: '',
+      price: 1,
+      img: ''
+    }
+
+    const adaptee = {
+      a: '',
+      b: 11,
+      c: ''
+    }
+
+    function Adapter(adaptee) {
+      const {
+        a, b, c
+      } = adaptee
+      return {
+        skuname: a,
+        price: b,
+        img: c
+      }
+    }
+
+    // 上面其实就是一个简单的适配器模式
+  </script>
+</head>
+<body>
+  适配器模式（Adapter Pattern）：将一个类的接口转化为客户端所期望的接口，使得原本不兼容的类可以一起工作。在前端开发中，可以使用适配器模式来处理不同浏览器之间的兼容性问题。
+
+  <br><br><br>
+  适配器模式通常包含三个角色：客户端、目标对象和适配器对象。客户端调用适配器对象的接口，适配器对象再调用目标对象的接口，将目标对象的接口转换为客户端需要的接口，从而实现兼容性。
+
+  <br><br><br>
+  通过适配器模式，我们可以将不同接口的对象进行统一封装，从而方便我们使用和维护代码。
+</body>
+</html>
