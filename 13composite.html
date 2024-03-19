@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组合模式</title>
+  <script>
+    const data = [{
+      id: 0,
+      name: '全部'
+    },{
+      id: 1,
+      parentId: 0,
+      name: '生鲜'
+    },{
+      id: 2,
+      parentId: 0,
+      name: '衣服'
+    },{
+      id: 3,
+      parentId: 0,
+      name: '零食'
+    },{
+      id: 4,
+      parentId: 1,
+      name: '鲈鱼'
+    },{
+      id: 5,
+      parentId: 1,
+      name: '龙虾'
+    },{
+      id: 6,
+      parentId: 1,
+      name: '螃蟹'
+    },{
+      id: 7,
+      parentId: 2,
+      name: '男装'
+    },{
+      id: 8,
+      parentId: 2,
+      name: '女装'
+    },{
+      id: 9,
+      parentId: 3,
+      name: '薯片'
+    },{
+      id: 10,
+      parentId: 3,
+      name: '辣条'
+    }]
+
+    const cache = new Map()
+
+    // 抽象方法
+    class Component {
+      constructor() {}
+      add() {}
+      remove() {}
+      getChild(){}
+    }
+
+    // 创建合成节点
+    class Composite extends Component {
+      constructor(node) {
+        super()
+        Object.assign(this, {
+          ...node
+        })
+        this.children = []
+      }
+      add(leaf) {
+        this.children.push(leaf)
+      }
+      remove(leaf) {
+        const index = this.children.indexOf(leaf)
+        if(index !== -1) {
+          this.children.splice(index , 1)
+        }
+      }
+      getChild(index){
+        return this.children[index]
+      }
+    }
+
+    // 创建叶子节点
+    class Leaf {
+      constructor(node) {
+        Object.assign(this, {
+          ...node
+        })
+      }
+    }
+
+    // 创建根节点
+    let rootNode = data.filter(item => item.id == 0)[0]
+    let root = new Composite(rootNode)
+    cache.set(rootNode.id, root)
+   
+
+    // 遍历获取branch节点，以及叶子节点
+    let branchs = data.filter(item => item.parentId == 0)
+    branchs.forEach(item => {
+      let branch = new Composite(item)
+      cache.set(item.id, branch)
+      // 添加到根节点上
+      root.add(branch)
+
+      // 获取叶子节点
+      let leafs = data.filter(leaf => leaf.parentId == item.id)
+      leafs.forEach(leafNode => {
+        let leaf = new Leaf(leafNode)
+        cache.set(leafNode.id, leaf)
+        branch.add(leaf)
+      })
+    })
+
+    console.log(root)
+
+    // 删除某一个元素
+    let shengxian = cache.get(1)
+    console.log(shengxian)
+
+    root.remove(shengxian)
+    console.log(root)
+  </script>
+</head>
+<body>
+  组合模式（Composite Pattern）：它允许将对象组合成树形结构，并且可以像操作单个对象一样操作整个树形结构。
+  <br><br><br>
+  使用场景，树形结构处理，比如一个三级分类的菜单，然后需要对菜单进行复制粘贴删除等操作
+</body>
+</html>

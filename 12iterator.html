@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迭代器模式</title>
+  <script>
+
+    // 数组的迭代
+    let testArr = [1, 2, 3]
+    let it = testArr[Symbol.iterator]()
+    console.log(it.next())
+    console.log(it.next())
+    console.log(it.next())
+    console.log(it.next())
+
+    // 理论上一个对象存在Symbol.iterator就是一个迭代器
+    class Collection {
+      constructor() {
+        this.items = []
+      }
+
+      add(val) {
+        this.items.push(val)
+      }
+
+      [Symbol.iterator]() {
+        let index = 0
+        let items = this.items
+        return {
+          next() {
+            if (index < items.length) {
+              return {
+                value: items[index++],
+                done: false
+              }
+            } else {
+              return {
+                value: undefined,
+                done: true
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let collection = new Collection()
+    collection.add('hahhahahah')
+    collection.add('dddddddddd')
+    collection.add('gggggggggg')
+
+    let it1 = collection[Symbol.iterator]()
+    console.log(it1.next())
+    console.log(it1.next())
+    console.log(it1.next())
+    console.log(it1.next())
+
+  </script>
+</head>
+<body>
+  迭代器模式（Iterator Pattern）：提供一种方法顺序访问一个聚合对象中的各个元素，而不需要暴露该对象的内部表示。在JavaScript中，可以使用迭代器模式来操作数组或类数组对象。
+
+  <br><br><br>
+
+  数组本身就存在迭代器，所以我们可以通过for of去迭代，对象就不可以，打开数组的原型就可以发现Symbol.iterator这个方法
+
+  <br><br><br>
+  通过使用迭代器模式，我们可以轻松地遍历集合对象的元素，而不必担心它们的实现方式。
+</body>
+</html>

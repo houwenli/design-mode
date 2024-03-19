@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原型模式</title>
+  <script>
+    // 这个其实就比较简单了，利用的是Object.create来创建一个新的对象，新对象的原型设置成了父对象
+
+    const parent = {
+      fruits: [],
+      addFruit(fruit) {
+        this.fruits.push(fruit)
+      }
+    }
+
+    const child = Object.create(parent)
+    child.addFruit('banana')
+    child.addFruit('apple')
+    console.log(child.fruits)
+  </script>
+</head>
+<body>
+  原型模式（Prototype Pattern）：使用原型实例指定创建对象的种类，并通过拷贝这些原型创建新的对象。
+  <br><br><br>
+  在JavaScript中，所有的对象都有一个原型链。原型链是一种机制，它允许我们在对象上定义属性和方法，并且可以从它的原型中继承属性和方法。当我们访问一个对象的属性或方法时，JavaScript会在原对象上查找，如果找不到，它会继续查找原型链上的对象，直到找到该属性或方法或者到达原型链的末端。
+
+  <br><br><br>
+  原型模式是一种利用原型链的设计模式，它允许我们通过克隆现有对象来创建新对象。JavaScript中的原型模式使用Object.create()方法来创建一个对象，并且可以通过修改原型链上的属性和方法来修改新对象的行为。
+</body>
+</html>

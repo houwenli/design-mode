@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>状态模式</title>
+  <script>
+    // 我们想象一下购物车的实现
+    // 正常实现
+    // 添加或者删除的时候我们需要判断购物车的数量。从而给出不同的状态，比如没有商品提示添加，有商品提示查看列表或者删除
+    // class Cart {
+    //   constructor() {
+    //     this.products = []
+    //     this.state = false
+    //   }
+
+    //   addCart(product) {
+    //     this.products.push(product);
+    //     this.state = true
+    //   }
+
+    //   removeFromCart(product) {
+    //     const index = this.products.indexOf(product);
+    //     if (index !== -1) {
+    //       this.products.splice(index, 1);
+    //     }
+    //     if (this.products.length === 0) {
+    //       this.state = false
+    //     }
+    //   }
+
+    //   // 一些比复杂的操作
+    //   showMessage() {
+    //     if (this.state) {
+    //       console.log('购物车有商品')
+    //     } else {
+    //       console.log('购物车是空的')
+    //     }
+    //   }
+    // }
+
+    // const cart = new Cart()
+    // cart.addCart('apple')
+    // cart.showMessage()
+
+    // cart.removeFromCart('apple')
+    // cart.showMessage()
+
+
+    // 上面的方法当然是可以的
+    // 但是购物车中的购物车和状态就交杂在一起了，我们可以想象一下由一个专门的状态管理来处理复杂操作，而购物车只是存储我们加购的商品
+    // 改动如下
+    class EmptyState {
+      constructor(cart) {
+        this.cart = cart
+      }
+      addToCart() {
+        console.log('Product added to cart');
+        this.cart.setState(new NonEmptyState(this.cart))
+      }
+      removeFromCart(){}
+      // 复杂操作
+      showMessage() {
+        console.log('Your cart is empty, please add some products.');
+      }
+    }
+
+    class NonEmptyState {
+      constructor(cart) {
+        this.cart = cart
+      }
+      removeFromCart() {
+        console.log('Product removed from cart');
+        if(this.cart.products.length === 0) {
+          this.cart.setState(new EmptyState(this.cart))
+        }
+      }
+
+      addToCart() {}
+      // 复杂操作
+      showMessage() {
+        console.log(`Your cart contains ${this.cart.products.length} products:`);
+        console.log(this.cart.products.join(', '));
+      }
+    }
+
+    class Cart {
+      constructor() {
+        this.state = new EmptyState(this)
+        this.products = []
+      }
+
+      setState(state) {
+        this.state = state
+      }
+
+      addToCart(product) {
+        this.products.push(product)
+        this.state.addToCart()
+      }
+
+      removeFromCart(product) {
+        const index = this.products.indexOf(product);
+        if (index !== -1) {
+          this.products.splice(index, 1);
+          this.state.removeFromCart();
+        }
+      }
+
+      // 此时的复杂操作交给状态管理就好了
+      showMessage() {
+        this.state.showMessage()
+      }
+    }
+
+    const cart = new Cart()
+
+    cart.showMessage()
+
+    cart.addToCart('apple')
+    cart.showMessage()
+
+    cart.addToCart('banana')
+    cart.showMessage()
+
+    cart.removeFromCart('apple')
+    cart.showMessage()
+
+    cart.removeFromCart('banana')
+    cart.showMessage()
+  </script>
+</head>
+<body>
+  状态模式（State Pattern）：将对象的行为和状态分离，使得对象可以根据不同的状态来改变自己的行为。在前端开发中，可以使用状态模式来管理页面的状态和响应用户的交互。
+  <br><br><br>
+  在状态模式中，对象的行为取决于其内部状态，当状态发生变化时，对象的行为也会相应地发生改变。这种模式通过将状态抽象为独立的类来实现，每个状态类都有其自己的行为和相应的方法。
+  <br><br><br>
+  常见场景
+  <br>
+  1、表单验证：在用户提交表单之前，可以使用状态模式来验证表单中的输入是否符合规定。
+  <br>
+  2、游戏开发：在游戏中，对象的状态可能会随着游戏的进程而发生变化。使用状态模式可以帮助开发者轻松管理和处理这些状态变化。
+  <br>
+  3、状态切换：在前端应用中，一些操作会导致页面状态的改变，例如打开或关闭侧边栏，展开或折叠列表等。使用状态模式可以帮助开发者管理这些状态变化。
+</body>
+</html>

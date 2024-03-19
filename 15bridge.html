@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>桥接模式</title>
+  <script>
+    // 这个和重载还有很大的区别
+    // 重载是对方法的重写，桥接是类的拓展
+    class Button {
+      constructor(implementation) {
+        this.implementation = implementation
+      }
+
+      click() {
+        // 共同的行为
+        // ...
+        console.log('button 事件触发了')
+        this.implementation.click()
+      }
+
+      render() {
+        // 共同行为
+        console.log('render 事件触发了')
+        return this.implementation.render()
+      }
+    }
+
+    class DefaultButton {
+      click() {
+        console.log("DefaultButton clicked");
+      }
+      render() {
+        return "<button class='default'>Default Button</button>";
+      }
+    }
+
+    class OutlineButton  {
+      click() {
+        console.log("OutlineButton clicked");
+      }
+      render() {
+        return "<button class='outline'>Outline Button</button>";
+      }
+    }
+
+
+    // 创建按钮
+    const primaryButton = new Button(new DefaultButton())
+    const outlineButton = new Button(new OutlineButton())
+
+    window.onload = function() {
+      document.getElementById('wraper').innerHTML = `
+        ${primaryButton.render()}
+        ${outlineButton.render()}
+      `;
+      document.querySelector(".default").addEventListener("click", () => {
+        primaryButton.click();
+      });
+
+      document.querySelector(".outline").addEventListener("click", () => {
+        outlineButton.click();
+      });
+    }
+  </script>
+</head>
+<body>
+  桥接模式（Bridge Pattern）：用于将一个大类或一系列紧密相关的类拆分为抽象和实现两个独立的层次结构，从而能够更好地组合和扩展这些类。
+  <br><br><br>
+  在前端开发中，桥接模式通常用于处理 UI 组件的复杂性，将组件的抽象与实现分离，使得它们能够独立地变化。通过桥接模式，我们可以让组件的行为和样式分别独立变化，从而避免在代码中出现过多的重复和复杂度。
+  <br><br><br>
+  <div id="wraper"></div>
+</body>
+</html>

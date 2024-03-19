@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>过滤器模式</title>
+  <script>
+    class Filter {
+      constructor(filterFn) {
+        this.filterFn = filterFn
+      }
+
+      doFilter(elements) {
+        return elements.filter(item => this.filterFn(item))
+      }
+    }
+
+    class PriceFilter extends Filter {
+      constructor(price) {
+        super(element => element.price <= price)
+      }
+    }
+
+    class NameFilter extends Filter {
+      constructor(name) {
+        super(element => element.name == name)
+      }
+    }
+
+    let priceFilter = new PriceFilter(3)
+    let nameFilter = new NameFilter('dede')
+
+    const data = [
+      { name: 'dede', price: 3},
+      { name: 'aaa', price: 2},
+      { name: 'dee', price: 1},
+      { name: 'de', price: 4}
+    ]
+
+    let newData = priceFilter.doFilter(data)
+    console.log(newData)
+    newData = nameFilter.doFilter(data)
+    console.log(newData)
+  </script>
+</head>
+<body>
+  过滤器模式（Filter Pattern）：定义一个过滤器函数，该函数可以接受一个数据集合和一个过滤条件，返回符合条件的数据集合。
+
+  这个在vue中都有应用
+</body>
+</html>
